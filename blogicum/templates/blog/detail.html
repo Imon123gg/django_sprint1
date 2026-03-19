@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.date }} - Блогикум{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+    <div class="post-meta">
+        <p><strong>Место:</strong> {% if post.location %}{{ post.location }}{% else %}Не указано{% endif %}</p>
+        <p><strong>Дата:</strong> {{ post.date }}</p>
+        <p><strong>Категория:</strong> <a href="{% url 'blog:category_posts' post.category %}" class="post-category-link">{{ post.category }}</a></p>
+    </div>
+    
+    <div class="post-text">
+        {{ post.text|linebreaks }}
+    </div>
+    
+    <p style="margin-top: 30px;">
+        <a href="{% url 'blog:index' %}" class="btn">Назад к ленте</a>
+    </p>
+</article>
+{% endblock %}

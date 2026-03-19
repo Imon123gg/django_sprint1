@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Лента записей - Блогикум{% endblock %}
+
+{% block content %}
+<h1>Лента записей</h1>
+
+<div class="posts-list">
+    {% for post in posts %}
+    <article class="post-card">
+        <div class="post-meta">
+            <p><strong>Место:</strong> {% if post.location %}{{ post.location }}{% else %}Не указано{% endif %}</p>
+            <p><strong>Дата:</strong> {{ post.date }}</p>
+            <p><strong>Категория:</strong> <a href="{% url 'blog:category_posts' post.category %}" class="post-category-link">{{ post.category }}</a></p>
+        </div>
+        <div class="post-text">
+            {{ post.text|truncatewords:10 }}
+        </div>
+        <a href="{% url 'blog:post_detail' post.id %}" class="read-more">Читать далее</a>
+    </article>
+    {% empty %}
+    <p>Пока нет записей.</p>
+    {% endfor %}
+</div>
+{% endblock %}
