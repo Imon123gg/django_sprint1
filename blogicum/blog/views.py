@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import Http404
 
 posts = [
@@ -44,27 +44,31 @@ posts = [
     },
 ]
 
+
 def index(request):
     template = 'blog/index.html'
-    # Разворачиваем список постов в обратном порядке
     reversed_posts = list(reversed(posts))
     context = {'posts': reversed_posts}
     return render(request, template, context)
 
+
 def post_detail(request, id):
     template = 'blog/detail.html'
-    # Ручной поиск поста по id
     for post in posts:
         if post['id'] == id:
             context = {'post': post}
             return render(request, template, context)
-    # Если пост не найден, выбрасываем 404 ошибку
     raise Http404("Пост не найден")
+
 
 def category_posts(request, category_slug):
     template = 'blog/category.html'
-    # Фильтруем посты по категории и разворачиваем в обратном порядке
-    category_posts_list = [post for post in posts if post['category'] == category_slug]
+    category_posts_list = [
+        post for post in posts if post['category'] == category_slug
+    ]
     reversed_category_posts = list(reversed(category_posts_list))
-    context = {'category_slug': category_slug, 'posts': reversed_category_posts}
+    context = {
+        'category_slug': category_slug,
+        'posts': reversed_category_posts
+    }
     return render(request, template, context)
